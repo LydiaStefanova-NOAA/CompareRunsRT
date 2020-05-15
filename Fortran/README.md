@@ -1,11 +1,11 @@
 # CompareRunsRT: 
 Compare two or three runs obtained from the regression test system. Everything that needs to be edited for a new run is in "runcompare.sh"
 
-NB: Currently set up to run on Hera. To run on a different system, make sure that the correct intel and netcdf modules are loaded 
-  
-To run comparisons, edit these lines in script "runcompare.sh"
+To run comparisons, edit these lines in script "runcompare.sh" before executing
 
-(If loading different intel and netcdf modules, change CDF=/apps/netcdf/4.7.0/intel/18.0.5.274 accordingly)
+NB: Currently set up to run on Hera. To run on a different system, make sure that the correct intel and netcdf modules are loaded 
+(If loading different intel and netcdf modules, change CDF=/apps/netcdf/4.7.0/intel/18.0.5.274 accordingly
+For example on Orion, module load intel; module load netcdf; CDF=/apps/intel-2020/netcdf-4.7.2)
 
 nexp=3    # number of experiments (if nexp=2, expname3 and rootpath3 can be left blank)  
 
