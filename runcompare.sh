@@ -2,6 +2,8 @@
 
   module load intel/18.0.5.274 
   module load netcdf/4.7.0
+  CDF=/apps/netcdf/4.7.0/intel/18.0.5.274
+
   nexp=2
 
   rootpath1="/scratch1/NCEPDEV/stmp2/Lydia.B.Stefanova/fromHPSS/forRegTest/IPD/"
@@ -43,7 +45,7 @@ cat << EOF > param.F90
 EOF
 
 cat << EOF > Makefile
-CDF=/apps/netcdf/4.7.0/intel/18.0.5.274
+CDF=$CDF
 FOPT = -O2
 F90 = ifort
 opt1 = -Duse_m6c5
@@ -61,8 +63,6 @@ EOF
 
 make clean
 make
-#./runcompare $path1 $path2 $path3 $expname1 $expname2 $expname3
-#./runcompare $path1 $path2  $expname1 $expname2 
  ./runcompare $patharg $exparg 
 
 
