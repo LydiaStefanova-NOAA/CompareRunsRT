@@ -71,4 +71,4 @@ make
   echo $patharg
   echo $exparg
   
- ./runcompare $patharg $exparg 
+ ./runcompare $patharg $exparg  20120101

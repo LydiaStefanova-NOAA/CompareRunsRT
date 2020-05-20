@@ -1,51 +1,60 @@
-subroutine check(status)
+  subroutine check(status, flag)
     use netcdf
     use param
     integer, intent ( in) :: status
+    integer, intent (out) :: flag
+    flag=0
     if(status /= nf90_noerr) then
-      print *, trim(nf90_strerror(status))
-      stop "Stopped"
+  !    print *, trim(nf90_strerror(status))
+  !    stop "Stopped"
+       flag=1
     end if
   end subroutine check
 
-  subroutine readlatlon(filename,lat,lon,varlat,varlon)
+  subroutine readlatlon(filename,lat,lon,varlat,varlon,flag)
     use netcdf
     use param
     character(len=*),intent(in)       :: filename,varlat,varlon
     real,intent(out)                  :: lon(nx),lat(ny)
+    integer, intent(out)              :: flag
     integer                           :: ncid, varid
-    call check( nf90_open(filename, nf90_nowrite, ncid) )
-    call check( nf90_inq_varid(ncid, varlon, varid) )
-    call check( nf90_get_var(ncid, varid, lon))
-    call check( nf90_inq_varid(ncid, varlat, varid) )
-    call check( nf90_get_var(ncid, varid, lat))
-    call check( nf90_close(ncid) )
+    call check( nf90_open(filename, nf90_nowrite, ncid) ,flag)
+    call check( nf90_inq_varid(ncid, varlon, varid) ,flag)
+    call check( nf90_get_var(ncid, varid, lon),flag)
+    call check( nf90_inq_varid(ncid, varlat, varid) ,flag)
+    call check( nf90_get_var(ncid, varid, lat),flag)
+    call check( nf90_close(ncid) ,flag)
   end subroutine readlatlon
 
-  subroutine readbynumber(filename,array,varname,varid)
+  subroutine readbynumber(filename,array,varname,varid,flag)
     use netcdf
     use param
     integer,intent(in)                :: varid
     character(len=*),intent(in)       :: filename
-    real,intent(out) :: array(nx,ny)
+    integer, intent(out)              :: flag
+    integer                           ::  dummy
+    real,intent(out) :: array(nx,ny,nt)
     character(len=30)                 :: varname
     integer                           :: ncid
-    call check( nf90_open(filename, nf90_nowrite, ncid) )
-    call check (nf90_inquire_variable(ncid, varid, varname))
-    call check( nf90_get_var(ncid, varid, array))
-    call check( nf90_close(ncid) )
+    call check( nf90_open(filename, nf90_nowrite, ncid) ,dummy)
+    call check (nf90_inquire_variable(ncid, varid, varname),flag)
+    if (flag.ne.1) then
+       call check( nf90_get_var(ncid, varid, array),flag)
+    end if
+    call check( nf90_close(ncid) ,dummy)
   end subroutine readbynumber
 
-  subroutine readbyname(filename,array,varname,varid)
+  subroutine readbyname(filename,array,varname,varid,flag)
     use netcdf
     use param
     character(len=*),intent(in)       :: filename,varname
-    real,intent(out) :: array(nx,ny)
+    integer, intent(out)              :: flag
+    real,intent(out) :: array(nx,ny,nt)
     integer                           :: ncid, varid
-    call check ( nf90_open(filename, nf90_nowrite, ncid))
-    call check ( nf90_inq_varid(ncid, varname, varid))
-    call check ( nf90_get_var(ncid, varid, array))
-    call check ( nf90_close(ncid) )
+    call check ( nf90_open(filename, nf90_nowrite, ncid),flag)
+    call check ( nf90_inq_varid(ncid, varname, varid),flag)
+    call check ( nf90_get_var(ncid, varid, array),flag)
+    call check ( nf90_close(ncid) ,flag)
 
   end subroutine readbyname
 
