@@ -79,7 +79,7 @@ program compare_models
 !23456789123456789123456789123456789123456789 
      print*, 'about to write'
      write(2,fmt='(a)')"========================="
-     !write(2,fmt=10) varid,varname,tag
+     write(2,fmt=10) varid,varname,tag
      write(2,fmt='(a)')"-------------------------"
      write(2,fmt='(a)')" "
      write(2,fmt=100) "STYP","VALD"," MIN"," MAX","MEAN"," RMS","SRMS"," %UP"," %DN"
