@@ -6,7 +6,7 @@ program compare_models
   integer                            :: i,ikind,iexp,itile,varid, flag
   character (len = 300)              :: filename(nexp,ntile),expname(nexp),varname,path(nexp),diffname
   character (len=15)                :: fileout
-  character (len=8)                   :: tag
+  character (len=10)                   :: tag
   character (len = 1)                :: tilenum
   real,dimension(nexp,ntile,nx,ny)   :: dataA, maskA, maskIN
   integer,dimension(nexp,0:nkind-1)  :: countA, countAB
@@ -45,7 +45,7 @@ program compare_models
         do iexp = 1, nexp
            varname=varwant
            call readbyname  (filename(iexp,itile), dataA(iexp,itile,:,:)  ,varname,varid,flag)
-           print *,"reading", varname, varid
+          ! print *,"reading", varname, varid
         end do
      end do
 
@@ -77,8 +77,9 @@ program compare_models
 
 !===OUTPUT TO SCREEN
 !23456789123456789123456789123456789123456789 
+     print*, 'about to write'
      write(2,fmt='(a)')"========================="
-     write(2,fmt=10) varid,varname,tag
+     !write(2,fmt=10) varid,varname,tag
      write(2,fmt='(a)')"-------------------------"
      write(2,fmt='(a)')" "
      write(2,fmt=100) "STYP","VALD"," MIN"," MAX","MEAN"," RMS","SRMS"," %UP"," %DN"
@@ -102,7 +103,7 @@ program compare_models
      end if
   end do
   close(unit=2)
- 10   format (i3,4x,a30, 4x,a30)
+ 10   format (i3,4x,a20,4x,a10)
  100  format (14x,a5,8x,a4,8(9x,a4,x))
  1000 format (a14,4x,i2,4x,i8,4(4x,e10.3),3(4x,f10.3))
 end program compare_models 

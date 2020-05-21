@@ -19,8 +19,8 @@
   leadend=35
   leadstep=5
 
-  yyyyicA=2013 
-  yyyyicB=2013
+  yyyyicA=2014 
+  yyyyicB=2014
   
   mmic=$(printf "%02d" $mmic)
   ddic=$(printf "%02d" $ddic)
@@ -36,17 +36,16 @@
   expname1="PreYes"
   expname2="Base"
 
-  domain="ice";  
-
- 
-domain="ocn_2D_";  
-for varname in SST MLD_0125 MLD_003 sensible latent fprec ; do 
+  domain="ice"; declare -a varlist=(aice_h Tsfc_h) 
+  domain="ocn_2D_"; declare -a varlist=(SST MLD_0125 sensible) 
+  
+  for varname in ${varlist[@]}; do 
     length=${#varname}
+    echo $varname
     case "$domain" in
         "phyf") nx=384; ny=384; ntile=6; nkind=3; varmin=4; varmax=134; domask=1 ;;
         "dynf") nx=384; ny=384; ntile=6; nkind=3 ; varmin=4; varmax=10; domask=0 ;;
         "ocn_2D_")  nx=1440; ny=1080; ntile=1; nkind=1 ; varmin=6; varmax=6;domask=0 ;;
-        "ice")  nx=1440; ny=1080; ntile=1; nkind=1 ; varmin=1; varmax=100; domask=2 ;;
         "ice")  nx=1440; ny=1080; ntile=1; nkind=1 ; varmin=16; varmax=16; domask=2 ;;
     esac
 
@@ -98,14 +97,15 @@ make
 #
          extn1="${datefcstA}${hh}.01.${dateicA}${hh}.nc"
          extn2="${datefcstB}${hh}.01.${dateicB}${hh}.nc"
+
          extn3="${datefcstA}${hh}.01.${dateicA}${hh}.nc"
 
-         gunzip -q $rootpath1/$domain$extn1 
-         gunzip -q $rootpath2/$domain$extn2 
-         gunzip -q $rootpath3/$domain$extn3 
+         if [  -f $rootpath1/$domain${extn1}.gz ] ; then gunzip -q $rootpath1/$domain$extn1  ; fi
+         if [  -f $rootpath2/$domain${extn2}.gz ] ; then gunzip -q $rootpath2/$domain$extn2  ; fi
+         if [  -f $rootpath3/$domain${extn3}.gz ] ; then gunzip -q $rootpath3/$domain$extn3  ; fi
 
 
-         tag=$mmfcstB$ddfcstB
+         tag=$yyyyfcstA$mmfcstA$ddfcstA
 
 #
          patharg=""
@@ -118,6 +118,7 @@ make
             exparg="${exparg} ${expname[$i]}"
          done
          ./runlimited  $patharg $exparg $tag
+         echo $tag
      done    # end loop for lead
 done # end loop for variable
 
