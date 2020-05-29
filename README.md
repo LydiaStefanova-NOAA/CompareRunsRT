@@ -1,5 +1,6 @@
 # CompareRunsRT: 
-Compare two or three runs obtained from the regression test system. Everything that needs to be edited for a new run is in "runcompare.sh"
+
+Compare simple statistics of two or three runs obtained from the regression test system. Everything that needs to be edited for a new run is in "runcompare.sh" (or limited.sh which, instead of running through all variables and outputing to screen, allows for selection of variables and outputs to files)
 
 To run comparisons, edit these lines in script "runcompare.sh" before executing
 
