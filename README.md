@@ -1,6 +1,6 @@
 # CompareRunsRT: 
 
-Compare simple statistics of two or three runs obtained from the regression test system. Everything that needs to be edited for a new run is in "runcompare.sh" (or limited.sh which, instead of running through all variables and outputing to screen, allows for selection of variables and outputs to files)
+Compare simple statistics of two or three runs obtained from the regression test system. Everything that needs to be edited for a new run is in "runcompare.sh" (or limited.sh, which allows for selection of variables by name and outputs to files)
 
 To run comparisons, edit these lines in script "runcompare.sh" before executing
 
@@ -22,7 +22,7 @@ domain="atm"; file="phyf"; extn="840.tile"    # use this for atmospheric phyf840
 \#domain="ocn"; file="ocn"; extn="_2013_04_01_03.nc"  # use this for oceanic ocn_2013_04_01_03.nc files  
 \#domain="ice"; file="ice"; extn="h_06h.2013-04-11-00000.nc"  # use this for ice iceh_06h.2013-04-11-00000.nc files  
   
-
+varmin and varmax specify the number of the first and last variable of interest in the netcdf
 
 Executing the script will:   
     1) update the parameters in param.F90  
